@@ -741,7 +741,9 @@ where
     type Item = DescriptorChain<M>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if *self.next_avail == self.last_index {
+        if self.next_avail.0.checked_rem(self.queue_size)?
+            == self.last_index.0.checked_rem(self.queue_size)?
+        {
             return None;
         }
 
